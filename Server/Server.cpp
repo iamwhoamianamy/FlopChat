@@ -39,12 +39,12 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    u_short port = 3333;
-    asio::ip::tcp::endpoint endpoint(asio::ip::address_v4::any(), port);
-
     // Binding an endpoint to an acceptor
     try
     {
+        u_short port = std::atoi(argv[1]);
+        asio::ip::tcp::endpoint endpoint(asio::ip::address_v4::any(), port);
+
         acceptor.bind(endpoint);
         std::cout << "Successfull binding of an endpoint!" << std::endl;
     }
