@@ -45,7 +45,11 @@ int main(int argc, char** argv)
         socket.connect(endpoint);
         std::cout << "Successfull connection to a server!" << std::endl;
 
-        asio::write(socket, asio::buffer("Hello, server!\nI am a client!!!!"));
+        std::cout << "Enter: ";
+        std::string message;
+        std::cin >> message;
+
+        asio::write(socket, asio::buffer(message));
     }
     catch (boost::system::system_error& error)
     {
