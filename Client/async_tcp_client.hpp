@@ -35,8 +35,7 @@ struct Session
         u_int id,
         Callback callback) :
             m_sock(ios),
-            m_ep(asio::ip::address::from_string(rawIpAddress),
-                port),
+            m_ep(asio::ip::address::from_string(rawIpAddress), port),
             m_request(request),
             m_id(id),
             m_callback(callback),

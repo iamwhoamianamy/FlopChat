@@ -98,5 +98,6 @@ bool runAsyncTcpClient(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-    return runSyncTcpClient(argc, argv);
+    //return runSyncTcpClient(argc, argv);
+    return runAsyncTcpClient(argc, argv);
 }
