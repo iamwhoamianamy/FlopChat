@@ -12,6 +12,7 @@ private:
 
 public:
     SyncTcpClient(const std::string& rawIpAddress, u_short port);
+
     void connect();
     void close();
     void send(const std::string& message);
