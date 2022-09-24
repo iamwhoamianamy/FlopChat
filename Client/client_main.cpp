@@ -1,60 +1,28 @@
 ﻿#include <iostream>
-#include <boost/asio.hpp>
-
-namespace asio = boost::asio;
+#include "sync_tcp_client.hpp"
 
 int main(int argc, char** argv)
 {
-    asio::io_service ios;
-    asio::ip::tcp::socket socket(ios);
-
-    // Socket opening
-    try
-    {
-        socket.open(asio::ip::tcp::v4());
-        std::cout << "Successfull opening of a socket!" << std::endl;
-    }
-    catch (boost::system::system_error& error)
-    {
-        std::cout << error.code() << " " << error.what() << std::endl;
-        std::getchar();
-        return 0;
-    }
-
-    std::string rawIp = "127.0.0.1";
+    std::string rawAddress("127.0.0.1");
     u_short port = 3333;
-    asio::ip::address_v4 address;
 
-    // Address parsing
     try
     {
-        address = asio::ip::address_v4::from_string(rawIp);
-    }
-    catch (boost::system::system_error& error)
-    {
-        std::cout << error.code() << " " << error.what() << std::endl;
-        std::getchar();
-        return 0;
-    }
+        SyncTcpClient client(rawAddress, port);
+        client.connect();
 
-    asio::ip::tcp::endpoint endpoint(address, port);
-
-    // Connecting a socket to an endpoint
-    try
-    {
-        socket.connect(endpoint);
-        std::cout << "Successfull connection to a server!" << std::endl;
-
-        std::cout << "Enter: ";
+        std::cout << "Enter message to server: ";
         std::string message;
         std::cin >> message;
 
-        asio::write(socket, asio::buffer(message));
-    }
-    catch (boost::system::system_error& error)
-    {
-        std::cout << error.code() << " " << error.what() << std::endl;
+        client.send(message);
+
         std::getchar();
-        return 0;
+
+        client.close();
+    }
+    catch (boost::system::system_error& er)
+    {
+        std::cout << er.what() << " " << er.code()<< std::endl;
     }
 }
